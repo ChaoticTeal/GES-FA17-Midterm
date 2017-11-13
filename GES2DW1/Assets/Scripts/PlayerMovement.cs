@@ -113,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
     {
         GetMovementInput();
         GetJumpInput();
-        checkDie();
+        CheckDie();
         CanGrab();
         Grab();
         UnGrab();
@@ -196,7 +196,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     // Check for death state
-    private void checkDie()
+    private void CheckDie()
     {
         if (transform.position.y < pitThreshhold || (dieTimeStart != 0 && Time.time - dieTimeStart >= dieTime))
             shouldDie = true;
@@ -304,6 +304,7 @@ public class PlayerMovement : MonoBehaviour {
         //}
     }
 
+    // Cancel grab state
     private void UnGrab()
     {
         if(Input.GetButtonDown("Jump") && isGrabbing && Time.time - grabTime > .5f)
