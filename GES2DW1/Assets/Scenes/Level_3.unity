@@ -2015,7 +2015,7 @@ MonoBehaviour:
   xOffset: 0
   yOffset: 0
   xmax: 55
-  ymax: 26
+  ymax: 25
 --- !u!1 &673153652
 GameObject:
   m_ObjectHideFlags: 0
