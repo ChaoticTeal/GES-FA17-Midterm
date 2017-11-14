@@ -2014,8 +2014,8 @@ MonoBehaviour:
   cameraFollowSpeed: 5
   xOffset: 0
   yOffset: 0
-  xmax: 55
-  ymax: 25
+  xmax: 53
+  ymax: 26
 --- !u!1 &673153652
 GameObject:
   m_ObjectHideFlags: 0
