@@ -111,18 +111,12 @@ public class PlayerMovement : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        GetMovementInput();
         GetJumpInput();
         CheckDie();
         CanGrab();
         Grab();
         UnGrab();
         UpdateIsOnGround();
-    }
-
-    // FixedUpdate is called once every 50th of a second
-    private void FixedUpdate()
-    {
         if (canControl)
         {
             Move();
@@ -156,11 +150,16 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Respawn")
             respPos = collision.gameObject.transform.position;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
         if (collision.gameObject.tag == "Victory" && canWin && isOnGround)
         {
             AudioSource win = collision.gameObject.GetComponent<AudioSource>();
             canControl = false;
-            win.Play();
+            if(!win.isPlaying)
+                win.Play();
             animator.SetFloat("vert", 1f);
             animator.SetFloat("speed", 0.0f);
             changeScene = true;
@@ -236,20 +235,10 @@ public class PlayerMovement : MonoBehaviour {
     // Take jump input
     private void GetJumpInput()
     {
-        if(Input.GetButtonDown("Jump") && isOnGround)
-        {
+        if (Input.GetButtonDown("Jump") && isOnGround)
             shouldJump = true;
-        }
         else
-        {
             shouldJump = false;
-        }
-    }
-
-    // Take movement input
-    private void GetMovementInput()
-    {
-        horizontalInput = Input.GetAxis("Horizontal");
     }
     
     // Grab a rope
@@ -270,9 +259,6 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (shouldJump)
         {
-            // Don't use different/amalgamate systems for movement (it's like mixing battery types)
-            //transform.translate(0, 1.0f, 0);
-            //rb2D.velocity = new Vector2(rb2D.velocity.x, jumpStrength);
             audioSource.clip = audioClips[0];
             audioSource.Play();
             rb2D.AddForce(jumpForce, ForceMode2D.Impulse);
@@ -284,6 +270,7 @@ public class PlayerMovement : MonoBehaviour {
     // Player movement logic
     private void Move()
     {
+        horizontalInput = Input.GetAxis("Horizontal");
         if (!isGrabbing)
         {
             rb2D.velocity = new Vector2(horizontalInput * moveSpeed, rb2D.velocity.y);
